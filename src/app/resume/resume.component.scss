@@ -1,0 +1,282 @@
+/* ══════════════════════════════════════════
+   RESUME MODAL — Fast Report Style
+══════════════════════════════════════════ */
+
+.resume-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 8888;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.resume-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px var(--shadow-card);
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.75rem;
+    border-bottom: 1px solid var(--border);
+
+    &-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+
+      svg { color: var(--accent); }
+    }
+  }
+
+  &__close {
+    background: var(--badge-bg);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover { background: var(--bg-secondary); color: var(--text-primary); }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    gap: 0;
+  }
+}
+
+/* ── Columns ── */
+.resume-col {
+  padding: 2rem 1.75rem;
+
+  &--left {
+    border-right: 1px solid var(--border);
+  }
+}
+
+/* ── Name Block ── */
+.resume-name-block {
+  margin-bottom: 1.75rem;
+}
+
+.resume-name {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin: 0 0 0.3rem;
+
+  &--white { color: var(--text-primary); }
+  &--accent { color: var(--accent); }
+}
+
+.resume-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin: 0 0 0.85rem;
+}
+
+.resume-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+
+    svg { flex-shrink: 0; }
+  }
+}
+
+/* ── Sections ── */
+.resume-section {
+  margin-bottom: 1.5rem;
+
+  &__label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--accent);
+    margin: 0 0 0.6rem;
+  }
+
+  &__text {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+}
+
+/* ── Projects list ── */
+.resume-projects {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.2px;
+  }
+
+  &__desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+}
+
+/* ── Education ── */
+.resume-edu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    strong {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    span {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+  }
+
+  &__badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: rgba(59,130,246,0.15);
+    color: var(--accent);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Stack Tags ── */
+.resume-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+
+  span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    background: var(--badge-bg);
+  }
+}
+
+/* ── Impact ── */
+.resume-impact {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  li {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+
+    strong { color: var(--text-primary); }
+  }
+}
+
+/* ── Connect ── */
+.resume-connect {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    svg { color: var(--text-secondary); flex-shrink: 0; }
+
+    a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover { color: var(--accent); }
+    }
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .resume-modal__body {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-col--left {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}

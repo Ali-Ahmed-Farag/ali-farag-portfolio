@@ -1,0 +1,191 @@
+<div class="contact-backdrop" (click)="goHome()">
+  <div class="contact-modal" (click)="$event.stopPropagation()">
+
+    <div class="contact-page">
+
+      <!-- Tab switcher -->
+      <div class="contact-tabs">
+        <button class="contact-tabs__btn" [class.active]="activeTab === 'call'" (click)="activeTab = 'call'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Book a Call
+        </button>
+        <button class="contact-tabs__btn" [class.active]="activeTab === 'message'" (click)="activeTab = 'message'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Send a Message
+        </button>
+      </div>
+
+      <!-- ═══════════════ BOOK A CALL ═══════════════ -->
+      @if (activeTab === 'call') {
+        <div class="contact-layout">
+
+          <!-- Left: Calendar -->
+          <div class="contact-card">
+            <h2 class="contact-card__title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              Contact Me
+            </h2>
+
+            <div class="calendar">
+              <div class="calendar__header">
+                <span class="calendar__month">{{ monthLabel() }}</span>
+                <div class="calendar__nav">
+                  <button (click)="prevMonth()">‹</button>
+                  <button (click)="nextMonth()">›</button>
+                </div>
+              </div>
+
+              <div class="calendar__grid">
+                <span class="calendar__dow" *ngFor="let d of ['S','M','T','W','T','F','S']">{{ d }}</span>
+                @for (day of calendarDays(); track $index) {
+                  <button
+                    class="calendar__day"
+                    [class.today]="isToday(day)"
+                    [class.selected]="isSelected(day)"
+                    [class.past]="isPast(day)"
+                    [class.empty]="!day"
+                    [disabled]="!day || isPast(day)"
+                    (click)="selectDay(day)">
+                    {{ day }}
+                    @if (day && !isPast(day)) {
+                      <span class="calendar__dot"></span>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Slots + Form -->
+          @if (selectedDate()) {
+            <div class="contact-card contact-card--right">
+              <div class="slots-header">
+                <span class="slots-date">{{ selectedDateLabel() }}</span>
+                <button class="slots-close" (click)="goHome()">✕</button>
+              </div>
+
+              <div class="timezone-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span>User Timezone</span>
+              </div>
+              <div class="timezone-select">UTC+02:00 (CAI) ▾</div>
+
+              <div class="slots-section">
+                <h3>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  Available Slots
+                </h3>
+                <div class="slots-grid">
+                  @for (slot of timeSlots; track slot) {
+                    <button class="slot-btn" [class.selected]="selectedSlot() === slot" (click)="selectedSlot.set(slot)">
+                      {{ slot }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Name <span class="req">*</span></label>
+                <input type="text" [(ngModel)]="callForm.name" placeholder="Your Name" />
+              </div>
+              <div class="form-group">
+                <label>Email <span class="req">*</span></label>
+                <input type="email" [(ngModel)]="callForm.email" placeholder="Your Email" />
+              </div>
+
+              <button class="submit-btn" (click)="submitCall()" [disabled]="callStatus === 'sending'">
+                @if (callStatus === 'sending') { Sending… }
+                @else if (callStatus === 'success') { ✓ Booked! }
+                @else if (callStatus === 'error') { Error, try again }
+                @else { Confirm Booking }
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ═══════════════ SEND A MESSAGE ═══════════════ -->
+      @if (activeTab === 'message') {
+        <div class="contact-card contact-card--msg">
+          <div class="msg-header">
+            <h2>Send a Message</h2>
+            <button class="slots-close" (click)="goHome()">✕</button>
+          </div>
+
+          <div class="form-group">
+            <label>Name <span class="req">*</span></label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+              <input type="text" [(ngModel)]="msgForm.name" placeholder="Full Name" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input type="email" [(ngModel)]="msgForm.email" placeholder="name@example.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number <span class="req">*</span></label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <input type="tel" [(ngModel)]="msgForm.phone" placeholder="+1 (555) 123-4567" />
+            </div>
+          </div>
+
+          <div class="whatsapp-toggle">
+            <div class="whatsapp-toggle__left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>WhatsApp Available</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" [(ngModel)]="msgForm.whatsapp" />
+              <span class="toggle__slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Message <span class="req">*</span></label>
+            <textarea [(ngModel)]="msgForm.message" placeholder="How can I help you?" rows="4"></textarea>
+          </div>
+
+          <button class="submit-btn submit-btn--full" (click)="submitMessage()" [disabled]="msgStatus === 'sending'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            @if (msgStatus === 'sending') { Sending… }
+            @else if (msgStatus === 'success') { ✓ Message Sent! }
+            @else if (msgStatus === 'error') { Error, try again }
+            @else { Send Message }
+          </button>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

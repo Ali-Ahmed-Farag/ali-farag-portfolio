@@ -1,0 +1,112 @@
+<section class="stack">
+
+  <!-- Left side -->
+  <div class="stack__left">
+    <div class="stack__header">
+      <p class="stack__eyebrow">My Tech</p>
+      <h2 class="stack__title">Stack</h2>
+    </div>
+
+    <div class="stack__grid">
+      <div class="stack__item" *ngFor="let tech of techs">
+        <div class="stack__icon">
+          <img [src]="tech.icon" [alt]="tech.name" />
+        </div>
+        <span class="stack__name">{{ tech.name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side — About -->
+  <div class="stack__right">
+    <div class="about-card">
+      <p class="about-card__intro">
+        Data Engineer specialized in <span class="about-card__highlight">Python</span>
+        and <span class="about-card__highlight">SQL</span>, building reliable
+        and scalable data pipelines from ingestion to orchestration.
+      </p>
+
+      <div class="about-card__certs">
+
+        <!-- Faculty -->
+        <div class="cert">
+          <div class="cert__icon">🎓</div>
+          <div class="cert__info">
+            <span class="cert__title">Faculty of Computers & AI</span>
+            <span class="cert__sub">Artificial Intelligence · 2023–2027</span>
+          </div>
+        </div>
+
+        <!-- IBM -->
+        <div class="cert cert--wide">
+          <div class="cert__icon">💠</div>
+          <div class="cert__info">
+            <span class="cert__title">IBM Data Engineering</span>
+            <div class="cert__badges">
+              <span class="cert__badge">Professional Certificate</span>
+              <span class="cert__badge">IBM / Coursera</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GCI World -->
+        <div class="cert">
+          <div class="cert__icon">🌏</div>
+          <div class="cert__info">
+            <span class="cert__title">GCI World</span>
+            <span class="cert__sub">The University of Tokyo</span>
+          </div>
+        </div>
+
+        <!-- NVIDIA / RAG -->
+        <div class="cert cert--wide">
+          <div class="cert__icon cert__icon--img">
+            <img src="assets/icons/database-svgrepo-com.svg" alt="RAG" />
+          </div>
+          <div class="cert__info">
+            <span class="cert__title">NVIDIA DLI — Generative AI & RAG Agents</span>
+            <div class="cert__badges">
+              <span class="cert__badge">Advanced Level · 100 hrs</span>
+              <span class="cert__badge">RAG Agents with LLMs</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Socials — vertical on right side -->
+<div class="side-socials">
+  <div class="side-socials__line"></div>
+  <a [href]="socials.linkedin" target="_blank" rel="noopener" class="side-socials__link side-socials__link--linkedin" aria-label="LinkedIn">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+      <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+    </svg>
+  </a>
+  <a [href]="socials.whatsapp" target="_blank" rel="noopener" class="side-socials__link side-socials__link--whatsapp" aria-label="WhatsApp">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M12 2a10 10 0 0 0-8.65 15L2 22l5.15-1.32A10 10 0 1 0 12 2z"/>
+      <path d="M8.5 8.7c.15-.35.3-.36.5-.36h.4c.15 0 .3 0 .45.35.15.35.5 1.25.55 1.35.05.1.08.2 0 .35-.08.15-.12.25-.24.4-.12.13-.25.3-.36.4-.12.13-.24.26-.1.5.15.25.65 1.05 1.4 1.7.95.85 1.75 1.1 2 1.25.25.15.4.13.55-.05.15-.18.6-.7.75-.95.15-.25.3-.2.5-.12.2.08 1.3.6 1.5.72.2.1.35.15.4.25.05.1.05.55-.15 1.1-.2.55-1.15 1.05-1.6 1.1-.4.05-.9.08-1.45-.1-.35-.1-.8-.25-1.4-.5-2.45-1.05-4.05-3.5-4.15-3.65-.1-.15-.85-1.1-.85-2.1s.5-1.5.7-1.7z" fill="currentColor" stroke="none"/>
+    </svg>
+  </a>
+  <a [href]="socials.github" target="_blank" rel="noopener" class="side-socials__link side-socials__link--github" aria-label="GitHub">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    </svg>
+  </a>
+  <div class="side-socials__line"></div>
+</div>
+
+@if (overlayVisible) {
+  <div class="neon-overlay"
+       [class.phase-in]="overlayPhase === 'in'"
+       [class.phase-hold]="overlayPhase === 'hold'"
+       [class.phase-out]="overlayPhase === 'out'"
+       [class.is-light]="isLight">
+    <span class="neon-word">{{ overlayWord }}</span>
+  </div>
+}

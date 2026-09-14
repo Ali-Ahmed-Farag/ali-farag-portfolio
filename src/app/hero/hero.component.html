@@ -1,0 +1,47 @@
+<section class="hero">
+  <div class="hero__blob"></div>
+
+  <div class="hero__left">
+    <p class="hero__this-is">This is</p>
+    <h1 class="hero__name">
+      <span class="hero__name-first">{{ firstName }}</span>
+      <span class="hero__name-last">{{ lastName }}</span>
+    </h1>
+    <p class="hero__title">
+      <span class="hero__title-text">{{ title }}</span>
+    </p>
+    <div class="hero__dots">
+      <span *ngFor="let d of [0,1,2,3,4,5,6,7,8,9,10,11]" class="dot"></span>
+    </div>
+    <div class="hero__badges">
+      <div class="badge badge--status">
+        <span class="badge__dot"></span>
+        <span>{{ status }}</span>
+      </div>
+      <div class="badge">{{ timezone }}</div>
+      <button class="badge badge--cta" (click)="openContact()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Book a call
+      </button>
+    </div>
+  </div>
+
+  <div class="hero__right">
+    <app-photo-card [photoPath]="photoPath" [isDark]="isDark"></app-photo-card>
+  </div>
+</section>
+
+@if (overlayVisible) {
+  <div class="neon-overlay"
+       [class.phase-in]="overlayPhase === 'in'"
+       [class.phase-hold]="overlayPhase === 'hold'"
+       [class.phase-out]="overlayPhase === 'out'"
+       [class.is-light]="isLight">
+    <span class="neon-word">{{ overlayWord }}</span>
+  </div>
+}

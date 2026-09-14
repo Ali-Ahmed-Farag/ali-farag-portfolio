@@ -1,0 +1,55 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #08090d;
+  --bg-secondary: #111217;
+  --bg-card: #1a1b22;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --border: rgba(255,255,255,0.08);
+  --nav-bg: rgba(20,21,28,0.85);
+  --pill-bg: rgba(30,31,40,0.9);
+  --badge-bg: rgba(255,255,255,0.06);
+  --dot-color: rgba(255,255,255,0.18);
+  --shadow-card: rgba(0,0,0,0.6);
+  --font-body: 'Inter', sans-serif;
+  --font-brush: 'Permanent Marker', cursive;
+}
+
+[data-theme="light"] {
+  --bg: #dde8f5;
+  --bg-secondary: #c8d8ee;
+  --bg-card: #ffffff;
+  --text-primary: #0a0a14;
+  --text-secondary: #555570;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --border: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.85);
+  --pill-bg: rgba(255,255,255,0.92);
+  --badge-bg: rgba(0,0,0,0.05);
+  --dot-color: rgba(0,0,0,0.18);
+  --shadow-card: rgba(100,130,180,0.25);
+}
+
+html, body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-primary);
+  transition: background 0.4s ease, color 0.3s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }

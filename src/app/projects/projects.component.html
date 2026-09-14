@@ -1,0 +1,462 @@
+<section class="projects-section">
+  <!-- ══════════════════════════════════
+       PROJECTS TAB
+  ══════════════════════════════════ -->
+  @if (activeTab() === 'projects') {
+    <div class="projects-view">
+
+      <!-- Header -->
+      <div class="section-header">
+        <span class="eyebrow">Selected</span>
+        <h2 class="section-title">Projects</h2>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Search projects by title, tags, or contributor..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onSearch($event)"
+        />
+      </div>
+
+      <!-- Filter Tags -->
+      <div class="filter-section">
+        <span class="filter-label">FILTER VIEW:</span>
+        <div class="filter-tags">
+          @for (tag of allTags(); track tag) {
+            <button
+              class="filter-chip"
+              [class.active]="isFilterActive(tag)"
+              (click)="toggleFilter(tag)"
+            >
+              @if (getTagIcon(tag)) {
+                <img [src]="getTagIcon(tag)" [alt]="tag" class="tag-icon" />
+              }
+              {{ tag }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div class="projects-grid">
+        @for (project of filteredProjects(); track project.id) {
+          <div class="project-card">
+
+            <!-- Card Thumbnail -->
+            <div class="card-thumbnail">
+              @if (project.videoUrl) {
+                <video
+                  class="thumbnail-img"
+                  [src]="project.videoUrl"
+                  [poster]="project.image"
+                  [muted]="true"
+                  loop
+                  playsinline
+                  preload="auto"
+                  (mouseenter)="playVideo($event)"
+                  (mouseleave)="pauseVideo($event)"
+                ></video>
+              } @else {
+                <img [src]="project.image" [alt]="project.name" class="thumbnail-img" />
+              }
+              <div class="thumbnail-overlay"></div>
+
+              <!-- Watch Demo Button (video projects) -->
+              @if (project.videoUrl) {
+                <button class="watch-btn" (click)="openVideo(project.videoUrl!, $event)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                    viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                  Watch Demo
+                </button>
+              }
+
+              <!-- View Screenshots Button (image-gallery projects) -->
+              @if (project.images && project.images.length > 0) {
+                <button class="watch-btn" (click)="openGallery(project.images!, $event)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  Screenshots
+                </button>
+              }
+
+              <!-- Links on hover -->
+              <div class="card-links">
+                @if (project.links.frontend) {
+                  <button class="link-btn primary" (click)="openLink(project.links.frontend!)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Live Demo
+                  </button>
+                }
+                @if (project.links.backend) {
+                  <button class="link-btn secondary" (click)="openLink(project.links.backend!)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="16 18 22 12 16 6"></polyline>
+                      <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    API Docs
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <h3 class="card-title">{{ project.name }}</h3>
+              <p class="card-about">{{ project.about }}</p>
+
+              <!-- Tags -->
+              <div class="card-tags">
+                @for (tag of project.tags; track tag) {
+                  <span class="card-tag">
+                    @if (getTagIcon(tag)) {
+                      <img [src]="getTagIcon(tag)" [alt]="tag" class="tag-icon-sm" />
+                    }
+                    {{ tag }}
+                  </span>
+                }
+              </div>
+            </div>
+
+          </div>
+        }
+
+        <!-- Empty state -->
+        @if (filteredProjects().length === 0) {
+          <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <p>{{ allProjects.length === 0 ? 'New projects are on the way — check back soon.' : 'No projects match your filters.' }}</p>
+            <button class="clear-btn" *ngIf="allProjects.length > 0" (click)="activeFilters.set([]); searchQuery.set('')">
+              Clear filters
+            </button>
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+
+  <!-- ══════════════════════════════════
+       DEVELOPER TAB
+  ══════════════════════════════════ -->
+  @if (activeTab() === 'developer') {
+    <div class="developer-view">
+
+      <!-- Header -->
+      <div class="section-header">
+        <span class="eyebrow">Open Source</span>
+        <h2 class="section-title">Developer</h2>
+      </div>
+      <p class="dev-subtitle">
+        Building, breaking, and shipping in public. A live snapshot of my
+        contributions, momentum, and favourite projects on GitHub.
+      </p>
+
+      <!-- ── Loading ── -->
+      @if (githubLoading()) {
+        <div class="gh-loading">
+          <div class="spinner"></div>
+          <span>Fetching GitHub data…</span>
+        </div>
+      }
+
+      <!-- ── Error ── -->
+      @if (githubError() && !githubLoading()) {
+        <div class="gh-error">
+          <p>Couldn't load GitHub data. Check your connection.</p>
+          <button class="clear-btn" (click)="loadGitHubData()">Retry</button>
+        </div>
+      }
+
+      <!-- ── Content ── -->
+      @if (!githubLoading() && !githubError() && githubStats()) {
+        <div class="gh-content">
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              <span class="stat-value">{{ githubStats()!.totalStars }}</span>
+              <span class="stat-label">TOTAL STARS</span>
+            </div>
+            <div class="stat-card">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+                <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><line x1="12" y1="12" x2="12" y2="15"/>
+              </svg>
+              <span class="stat-value">{{ githubStats()!.totalForks }}</span>
+              <span class="stat-label">TOTAL FORKS</span>
+            </div>
+            <div class="stat-card">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              </svg>
+              <span class="stat-value">{{ githubStats()!.repositories }}</span>
+              <span class="stat-label">REPOSITORIES</span>
+            </div>
+            <div class="stat-card">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span class="stat-value">{{ githubStats()!.followers }}</span>
+              <span class="stat-label">FOLLOWERS</span>
+            </div>
+          </div>
+
+          <!-- Contribution Activity -->
+          <div class="contribution-section">
+            <div class="contrib-header">
+              <div class="contrib-title-row">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                <span class="contrib-title">CONTRIBUTION ACTIVITY</span>
+              </div>
+
+              <!-- Year selector -->
+              <div class="year-selector">
+                @for (y of availableYears(); track y) {
+                  <button
+                    class="year-btn"
+                    [class.active]="selectedYear() === y"
+                    (click)="changeYear(y)"
+                  >{{ y }}</button>
+                }
+              </div>
+            </div>
+
+            <div class="contrib-meta">
+              <img [src]="githubStats()!.avatarUrl" alt="avatar" class="gh-avatar" />
+              <span class="contrib-count"><strong>{{ totalContributions() }}</strong> contributions</span>
+              <a class="gh-link" (click)="openGitHub()" target="_blank">
+                &#64;{{ githubStats()!.username | uppercase }}
+              </a>
+            </div>
+
+            <!-- Contribution Graph -->
+            <div class="contrib-graph-wrapper">
+              <!-- Month labels (dynamic) -->
+              <div class="month-labels-dynamic">
+                @for (m of monthLabels(); track m.index) {
+                  <span class="month-label-item" [style.left.px]="m.index * 14">{{ m.label }}</span>
+                }
+              </div>
+
+              <!-- Grid -->
+              <div class="contrib-grid">
+                @for (week of contributionWeeks(); track $index) {
+                  <div class="contrib-week">
+                    @for (day of week.days; track day.date) {
+                      <div
+                        class="contrib-day"
+                        [style.background]="getLevelColor(day.level)"
+                        [title]="day.count + ' contributions on ' + day.date"
+                      ></div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Legend -->
+              <div class="contrib-legend">
+                <span>Less</span>
+                @for (l of [0,1,2,3,4]; track l) {
+                  <div class="legend-cell" [style.background]="getLevelColor(l)"></div>
+                }
+                <span>More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Repos -->
+          @if (pinnedRepos().length > 0) {
+            <div class="repos-section">
+              <h3 class="repos-title">Repositories ({{ pinnedRepos().length }})</h3>
+              <div class="repos-grid">
+                @for (repo of pinnedRepos(); track repo.name) {
+                  <div class="repo-card" (click)="openLink(repo.url)">
+                    <div class="repo-header">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                      </svg>
+                      <span class="repo-name">{{ repo.name }}</span>
+                    </div>
+                    @if (repo.description) {
+                      <p class="repo-desc">{{ repo.description }}</p>
+                    }
+                    <div class="repo-footer">
+                      @if (repo.language) {
+                        <span class="repo-lang">
+                          <span class="lang-dot" [style.background]="getLangColor(repo.language)"></span>
+                          {{ repo.language }}
+                        </span>
+                      }
+                      @if (repo.stars > 0) {
+                        <span class="repo-stat">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                          </svg>
+                          {{ repo.stars }}
+                        </span>
+                      }
+                      @if (repo.forks > 0) {
+                        <span class="repo-stat">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+                            <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><line x1="12" y1="12" x2="12" y2="15"/>
+                          </svg>
+                          {{ repo.forks }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+
+    </div>
+  }
+
+  <!-- Neon Transition Overlay -->
+  @if (overlayVisible) {
+    <div class="neon-overlay"
+         [class.phase-in]="overlayPhase === 'in'"
+         [class.phase-hold]="overlayPhase === 'hold'"
+         [class.phase-out]="overlayPhase === 'out'"
+         [class.is-light]="isLight">
+      <span class="neon-word">{{ overlayWord }}</span>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════
+       VIDEO MODAL
+  ══════════════════════════════════ -->
+  @if (activeVideoUrl()) {
+    <div class="video-modal-backdrop" (click)="onBackdropClick($event)">
+      <div class="video-modal">
+        <button class="video-modal-close" (click)="closeVideo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <video
+          [src]="activeVideoUrl()!"
+          controls
+          autoplay
+          [muted]="true"
+          class="video-modal-player"
+        ></video>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════
+       IMAGE GALLERY MODAL
+  ══════════════════════════════════ -->
+  @if (activeGallery()) {
+    <div class="gallery-modal-backdrop" (click)="onGalleryBackdropClick($event)">
+      <div class="gallery-modal">
+
+        <!-- Close -->
+        <button class="gallery-close" (click)="closeGallery()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <!-- Counter -->
+        <div class="gallery-counter">
+          {{ activeGallery()!.currentIndex + 1 }} / {{ activeGallery()!.images.length }}
+        </div>
+
+        <!-- Prev -->
+        <button class="gallery-nav gallery-prev" (click)="prevImage()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <!-- Image -->
+        <img
+          [src]="activeGallery()!.images[activeGallery()!.currentIndex]"
+          [alt]="'Screenshot ' + (activeGallery()!.currentIndex + 1)"
+          class="gallery-img"
+        />
+
+        <!-- Next -->
+        <button class="gallery-nav gallery-next" (click)="nextImage()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="gallery-dots">
+          @for (img of activeGallery()!.images; track $index) {
+            <button
+              class="gallery-dot"
+              [class.active]="activeGallery()!.currentIndex === $index"
+              (click)="goToImage($index)"
+            ></button>
+          }
+        </div>
+
+      </div>
+    </div>
+  }
+
+</section>

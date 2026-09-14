@@ -1,0 +1,537 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3vw 0 5vw;
+  overflow: hidden;
+  gap: 1rem;
+
+  &__blob {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 65% 65% at 60% 40%, rgba(147,180,230,0.35) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    [data-theme="light"] & { opacity: 1; }
+  }
+
+  &__left {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 55%;
+    min-width: 0;
+    overflow: hidden;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__this-is {
+    font-family: var(--font-brush);
+    font-size: clamp(2.4rem, 5vw, 5rem);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.02em;
+    animation: slideDown 0.6s ease both;
+    align-self: center;
+  }
+
+  &__name {
+    line-height: 0.84;
+    margin-bottom: 0.15em;
+    width: 100%;
+
+    span {
+      display: block;
+      font-size: clamp(2rem, 7vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -4px;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    &-first { animation: slideLeft 0.55s 0.1s ease both; }
+    &-last  {
+      animation: slideLeft 0.55s 0.2s ease both;
+      margin-left: clamp(4rem, 13vw, 13rem);
+    }
+  }
+
+  &__title {
+    margin-bottom: 2rem;
+    animation: slideLeft 0.55s 0.3s ease both;
+    align-self: flex-start;
+
+    &-text {
+      font-family: var(--font-brush);
+      font-size: clamp(1.4rem, 3.2vw, 3.2rem);
+      color: var(--accent);
+      line-height: 1.1;
+    }
+  }
+
+  &__dots {
+    position: absolute;
+    left: -0.4rem;
+    top: 60%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    animation: fadeIn 0.8s 0.5s ease both;
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      border: 1.5px solid var(--dot-color);
+    }
+  }
+
+  &__badges {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    animation: slideUp 0.55s 0.4s ease both;
+    align-self: flex-start;
+  }
+
+  &__right {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  background: var(--badge-bg);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+
+  &--status .badge__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+  }
+
+  &--cta {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    &:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  }
+}
+
+a.badge--cta {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ══════════════════════════════════════════
+   NEON TRANSITION OVERLAY
+══════════════════════════════════════════ */
+.neon-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__word {
+    font-family: 'Segoe Script', 'Brush Script MT', 'Dancing Script', cursive;
+    font-size: clamp(4rem, 14vw, 12rem);
+    font-weight: 400;
+    color: transparent;
+    position: relative;
+    letter-spacing: 0.05em;
+
+    /* Neon text effect */
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+
+    /* Multi-layer glow */
+    text-shadow:
+      0 0 7px  rgba(255, 255, 255, 1),
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 21px rgba(255, 255, 255, 0.8),
+      0 0 42px rgba(180, 220, 255, 0.7),
+      0 0 82px rgba(140, 200, 255, 0.5),
+      0 0 92px rgba(100, 180, 255, 0.4),
+      0 0 102px rgba(80, 160, 255, 0.3);
+
+    .neon-transition.visible & {
+      animation: neonAppear 1.8s ease forwards;
+    }
+  }
+}
+
+@keyframes neonAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    text-shadow:
+      0 0 4px rgba(255,255,255,0.3),
+      0 0 8px rgba(180,220,255,0.2);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.02);
+    text-shadow:
+      0 0 7px  rgba(255, 255, 255, 1),
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 21px rgba(255, 255, 255, 0.8),
+      0 0 42px rgba(180, 220, 255, 0.7),
+      0 0 82px rgba(140, 200, 255, 0.5),
+      0 0 92px rgba(100, 180, 255, 0.4),
+      0 0 102px rgba(80, 160, 255, 0.3);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+    text-shadow:
+      0 0 7px  rgba(255, 255, 255, 1),
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 21px rgba(255, 255, 255, 0.8),
+      0 0 42px rgba(180, 220, 255, 0.7),
+      0 0 82px rgba(140, 200, 255, 0.5),
+      0 0 92px rgba(100, 180, 255, 0.4),
+      0 0 102px rgba(80, 160, 255, 0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.08);
+    text-shadow:
+      0 0 4px rgba(255,255,255,0.2),
+      0 0 8px rgba(180,220,255,0.1);
+  }
+}
+
+/* ── Keyframes ── */
+@keyframes slideDown { from { opacity:0; transform:translateY(-20px) } to { opacity:1; transform:none } }
+@keyframes slideLeft { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:none } }
+@keyframes slideUp   { from { opacity:0; transform:translateY(20px) }  to { opacity:1; transform:none } }
+@keyframes fadeIn    { from { opacity:0 } to { opacity:1 } }
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 1.5rem 10rem;
+    text-align: center;
+
+    &__left { flex: none; width: 100%; overflow: visible; align-items: center; }
+    &__name span {
+      font-size: clamp(2.8rem, 14vw, 6rem);
+      letter-spacing: -2px;
+      white-space: normal;
+      word-break: break-word;
+    }
+    &__name-last { margin-left: 0; }
+    &__dots { display: none; }
+    &__badges { justify-content: center; align-self: center; }
+    &__title { align-self: center; }
+    &__right { width: 100%; flex: none; }
+  }
+}
+
+/* ══════════════════════════════════════════
+   NEON TRANSITION OVERLAY
+══════════════════════════════════════════ */
+.neon-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  /* Phase in: bg fades in */
+  &.phase-in {
+    animation: bgFadeIn 0.4s ease forwards;
+  }
+  /* Phase hold: fully visible */
+  &.phase-hold {
+    opacity: 1;
+  }
+  /* Phase out: bg fades out */
+  &.phase-out {
+    animation: bgFadeOut 0.5s ease forwards;
+  }
+}
+
+.neon-word {
+  font-family: 'Pacifico', 'Dancing Script', 'Brush Script MT', cursive;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 2px;
+
+  /* Neon glow effect */
+  text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #f0c,
+    0 0 82px #f0c,
+    0 0 92px #f0c,
+    0 0 102px #f0c,
+    0 0 151px #f0c;
+
+  .phase-in & {
+    animation: neonFlicker 0.4s ease forwards;
+  }
+
+  .phase-hold & {
+    animation: neonPulse 1s ease-in-out infinite;
+  }
+
+  .phase-out & {
+    animation: neonFadeOut 0.5s ease forwards;
+  }
+}
+
+@keyframes bgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bgFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes neonFlicker {
+  0%   { opacity: 0; text-shadow: none; }
+  30%  { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 42px #f0c, 0 0 82px #f0c; }
+  50%  { opacity: 0.7; }
+  70%  { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f0c, 0 0 82px #f0c, 0 0 102px #f0c; }
+  100% { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f0c, 0 0 82px #f0c, 0 0 92px #f0c, 0 0 102px #f0c, 0 0 151px #f0c; }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+      0 0 42px #f0c, 0 0 82px #f0c, 0 0 92px #f0c,
+      0 0 102px #f0c, 0 0 151px #f0c;
+  }
+  50% {
+    text-shadow:
+      0 0 4px #fff, 0 0 7px #fff, 0 0 13px #fff,
+      0 0 25px #f0c, 0 0 50px #f0c, 0 0 60px #f0c,
+      0 0 70px #f0c;
+  }
+}
+
+@keyframes neonFadeOut {
+  0%   { opacity: 1; }
+  60%  { opacity: 0.5; text-shadow: 0 0 4px #fff, 0 0 10px #f0c; }
+  100% { opacity: 0; text-shadow: none; }
+}
+
+/* ══════════════════════════════════════════
+   NEON TRANSITION OVERLAY
+   (copy into both hero.component.scss & stack.component.scss)
+══════════════════════════════════════════ */
+.neon-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  /* Light mode: white background */
+  [data-theme="light"] & { background: #fff; }
+
+  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
+  &.phase-hold { opacity: 1; }
+  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
+}
+
+.neon-word {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+
+  /* Dark mode: white neon */
+  color: #fff;
+  text-shadow:
+    0 0 6px  #fff,
+    0 0 14px #fff,
+    0 0 28px rgba(255,255,255,0.6),
+    0 0 55px rgba(255,255,255,0.3);
+
+  /* Light mode: dark text, very subtle black glow */
+  [data-theme="light"] & {
+    color: #111;
+    text-shadow:
+      0 0 4px  rgba(0,0,0,0.25),
+      0 0 10px rgba(0,0,0,0.12),
+      0 0 20px rgba(0,0,0,0.07);
+  }
+
+  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
+  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
+  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
+}
+
+@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes neonFlicker {
+  0%   { opacity: 0; }
+  40%  { opacity: 1; }
+  60%  { opacity: 0.75; }
+  80%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.85; }
+}
+
+@keyframes neonFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+/* ══════════════════════════════════════════
+   NEON TRANSITION OVERLAY
+══════════════════════════════════════════ */
+.neon-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &.is-light { background: #fff; }
+
+  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
+  &.phase-hold { opacity: 1; }
+  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
+}
+
+.neon-word {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow:
+    0 0 6px  #fff,
+    0 0 14px #fff,
+    0 0 28px rgba(255,255,255,0.6),
+    0 0 55px rgba(255,255,255,0.3);
+
+  .neon-overlay.is-light & {
+    color: #111;
+    text-shadow:
+      0 0 4px  rgba(0,0,0,0.25),
+      0 0 10px rgba(0,0,0,0.12),
+      0 0 20px rgba(0,0,0,0.07);
+  }
+
+  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
+  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
+  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
+}
+
+@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes neonFlicker {
+  0%   { opacity: 0; }
+  40%  { opacity: 1; }
+  60%  { opacity: 0.75; }
+  80%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.85; }
+}
+
+@keyframes neonFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.neon-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &.is-light { background: #fff; }
+  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
+  &.phase-hold { opacity: 1; }
+  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
+}
+
+.neon-word {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 28px rgba(255,255,255,0.6), 0 0 55px rgba(255,255,255,0.3);
+
+  .neon-overlay.is-light & {
+    color: #111;
+    text-shadow: 0 0 4px rgba(0,0,0,0.25), 0 0 10px rgba(0,0,0,0.12), 0 0 20px rgba(0,0,0,0.07);
+  }
+
+  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
+  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
+  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
+}
+
+@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes neonFlicker { 0% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0.75; } 100% { opacity: 1; } }
+@keyframes neonPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+@keyframes neonFadeOut { from { opacity: 1; } to { opacity: 0; } }
