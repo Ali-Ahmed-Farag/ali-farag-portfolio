@@ -116,17 +116,19 @@ export class ContactComponent {
     this.callStatus = 'sending';
     try {
       await emailjs.send(
-        'service_nay6z7g',   // ✅ Ali's EmailJS Service ID
-        'TODO_TEMPLATE_ID',  // ⚠️ ضيف Template ID بتاعك هنا
+        'service_nay6z7g',
+        'template_1cgqdxu',
         {
+          title:   'Book a call',
           name:    this.callForm.name,
           email:   this.callForm.email,
           message: `Meeting request on ${this.selectedDateLabel()} at ${this.selectedSlot()}`,
         },
-        'TODO_PUBLIC_KEY'    // ⚠️ ضيف Public Key بتاعك هنا
+        '5oTDDpxVridhGZmjn'
       );
       this.callStatus = 'success';
-    } catch {
+    } catch (err) {
+      console.error('EmailJS error:', err);
       this.callStatus = 'error';
     }
   }
@@ -140,19 +142,21 @@ export class ContactComponent {
     this.msgStatus = 'sending';
     try {
       await emailjs.send(
-        'service_nay6z7g',   // ✅ Ali's EmailJS Service ID
-        'TODO_TEMPLATE_ID',  // ⚠️ ضيف Template ID بتاعك هنا
+        'service_nay6z7g',
+        'template_1cgqdxu',
         {
+          title:   'New message',
           name:    this.msgForm.name,
           email:   this.msgForm.email,
           message: this.msgForm.message +
             (this.msgForm.phone ? `\n\nPhone: ${this.msgForm.phone}` : '') +
             (this.msgForm.whatsapp ? '\nWhatsApp: Yes' : ''),
         },
-        'TODO_PUBLIC_KEY'    // ⚠️ ضيف Public Key بتاعك هنا
+        '5oTDDpxVridhGZmjn'
       );
       this.msgStatus = 'success';
-    } catch {
+    } catch (err) {
+      console.error('EmailJS error:', err);
       this.msgStatus = 'error';
     }
   }
