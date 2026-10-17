@@ -38,12 +38,13 @@ export interface Project {
   name: string;
   about: string;
   tags: string[];
-  image: string;
+  image?: string;
   videoUrl?: string;
   images?: string[];
   links: {
     backend?: string;
     frontend?: string;
+    github?: string;
   };
 }
 
