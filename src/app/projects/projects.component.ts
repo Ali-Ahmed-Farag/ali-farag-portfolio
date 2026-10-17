@@ -184,7 +184,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.loadGitHubData();
 
     this.scrollLocked = true;
-    setTimeout(() => { this.scrollLocked = false; }, 700);
+    setTimeout(() => { this.scrollLocked = false; }, 300);
 
     window.addEventListener('wheel', this.wheelHandler, { passive: true });
   }
@@ -198,15 +198,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   onWheel(e: WheelEvent) {
     if (this.scrollLocked) return;
 
-    const atTop    = window.scrollY <= 0;
-    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 5;
+    const atTop = window.scrollY <= 0;
 
+    // Projects is the last page: scrolling up at the top goes back to Stack
     if (e.deltaY < -30 && atTop) {
       this.triggerTransition('Stack', '/stack');
-    }
-
-    if (e.deltaY > 30 && atBottom) {
-      this.triggerTransition('Ask Me', '/ask-me');
     }
   }
 
@@ -216,12 +212,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.overlayPhase   = 'in';
     this.overlayVisible = true;
 
-    this.t1 = setTimeout(() => { this.overlayPhase = 'hold'; }, 250);
-    this.t2 = setTimeout(() => { this.overlayPhase = 'out'; }, 900);
+    this.t1 = setTimeout(() => { this.overlayPhase = 'hold'; }, 100);
+    this.t2 = setTimeout(() => { this.overlayPhase = 'out'; }, 350);
     this.t3 = setTimeout(() => {
       this.overlayVisible = false;
       this.router.navigate([route]);
-    }, 1300);
+    }, 550);
   }
 
   async loadGitHubData() {
@@ -351,20 +347,65 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   // ─── Projects List ────────────────────────────────────────────────────────
-  // No projects yet — add your own here once ready. Example shape below:
-  //
-  // {
-  //   id: 1,
-  //   name: 'My Project Name',
-  //   about: 'A short description of what it does and the tech used.',
-  //   tags: ['Python', 'ETL'],                    // must match tags used elsewhere for filtering
-  //   image: 'assets/projects/my-project.png',    // put the image file in src/assets/projects/
-  //   links: {
-  //     backend: 'https://your-api-or-repo-link.com',
-  //     frontend: 'https://your-live-demo-link.com',
-  //   },
-  // },
-  readonly allProjects: Project[] = [];
+  readonly allProjects: Project[] = [
+    {
+      id: 1,
+      name: 'E-Commerce Database Design',
+      about:
+        'A normalized (3NF) PostgreSQL database for an e-commerce store, built on the real Olist dataset with 7 tables and 112K+ order rows. Includes SQL analytics using CTEs and Window Functions, plus a delivery-performance query across 27 states.',
+      tags: ['PostgreSQL', 'SQL', 'Python', 'Pandas', 'Docker'],
+      image: 'assets/projects/db-design.png',
+      links: {
+        github: 'https://github.com/Ali-Ahmed-Farag/ecommerce-database-design',
+      },
+    },
+    {
+      id: 2,
+      name: 'E-Commerce ETL Pipeline (Apache Airflow)',
+      about:
+        'A daily Airflow pipeline that ingests sales data from CSV files and public holidays from an API, loading it through 3 layers (raw → staging → production). Features idempotent re-runs and a data-quality check that fails the run on bad data. Tested with a full backfill: 1,096 days and 7,672 tasks with zero failures.',
+      tags: ['Python', 'Airflow', 'PostgreSQL', 'Docker', 'Pandas', 'pytest'],
+      image: 'assets/projects/etl-pipeline.png',
+      images: [
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline/main/docs/screenshots/grid_success.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline/main/docs/screenshots/retry_attempt1_start.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline/main/docs/screenshots/retry_attempt1_fail.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline/main/docs/screenshots/try_number_2.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline/main/docs/screenshots/retry_attempt2.png',
+      ],
+      links: {
+        github: 'https://github.com/Ali-Ahmed-Farag/ecommerce-etl-pipeline',
+      },
+    },
+    {
+      id: 3,
+      name: 'E-Commerce Sales Dashboard (Star Schema + Power BI)',
+      about:
+        'An analytical Star Schema (4 dimensions and a 112,650-row fact table as a Materialized View) refreshed automatically from inside the Airflow DAG. On top sits a 3-page Power BI dashboard with DAX measures validated against reference SQL values, such as Total Sales of 15.84M and AOV of 160.58.',
+      tags: ['Power BI', 'DAX', 'PostgreSQL', 'SQL', 'Star Schema', 'Airflow', 'Docker'],
+      image: 'assets/projects/sales-dashboard.png',
+      images: [
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-sales-dashboard/main/docs/dashboard_screenshots/sales_overview.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-sales-dashboard/main/docs/dashboard_screenshots/product_analysis.png',
+        'https://raw.githubusercontent.com/Ali-Ahmed-Farag/ecommerce-sales-dashboard/main/docs/dashboard_screenshots/delivery_holiday_impact.png',
+      ],
+      links: {
+        github: 'https://github.com/Ali-Ahmed-Farag/ecommerce-sales-dashboard',
+      },
+    },
+    {
+      id: 4,
+      name: 'LMS AI Service',
+      about:
+        'The AI service component of a larger LMS platform. It generates quizzes from lesson content and produces student weakness reports from quiz performance. It runs a deterministic topic-level performance analysis, then uses an LLM (NVIDIA Nemotron 3 Super through the OpenRouter API) to generate personalized learning recommendations. The REST APIs include input validation, structured JSON responses, service-to-service authentication, error handling, and fallback recommendations.',
+      tags: ['Python', 'FastAPI', 'Pydantic', 'LLM', 'OpenRouter', 'pytest', 'Postman', 'Vercel'],
+      image: 'assets/projects/lms-ai-service.png',
+      links: {
+        backend: 'https://lms-ai-service.vercel.app/docs',
+        github: 'https://github.com/DevOraIntern2026/LMS-Platform_Team9',
+      },
+    },
+  ];
 
   readonly allTags = computed(() => {
     const tags = new Set<string>();
