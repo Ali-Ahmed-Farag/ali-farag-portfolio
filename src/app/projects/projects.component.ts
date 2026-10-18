@@ -1,8 +1,9 @@
-import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { PageTransition } from '../shared/page-transition';
 
 export interface GitHubStats {
   totalStars: number;
@@ -57,11 +58,13 @@ export type TabType = 'projects' | 'developer';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
+export class ProjectsComponent extends PageTransition implements OnInit {
   private readonly GITHUB_USERNAME = 'Ali-Ahmed-Farag';
   private readonly GITHUB_PROXY = '/api/github';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    super();
+  }
 
   activeTab = signal<TabType>('projects');
 
@@ -173,51 +176,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     return document.documentElement.hasAttribute('data-theme');
   }
 
-  overlayVisible = false;
-  overlayWord    = '';
-  overlayPhase: 'in' | 'hold' | 'out' = 'in';
-  private scrollLocked = false;
-  private t1: any; private t2: any; private t3: any;
-  private wheelHandler = (e: WheelEvent) => this.onWheel(e);
-
   ngOnInit() {
     this.loadGitHubData();
-
-    this.scrollLocked = true;
-    setTimeout(() => { this.scrollLocked = false; }, 300);
-
-    window.addEventListener('wheel', this.wheelHandler, { passive: true });
+    this.initPageTransition(this.router);
   }
 
-  ngOnDestroy() {
-    clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3);
-    window.removeEventListener('wheel', this.wheelHandler);
-    document.body.style.overflow = '';
-  }
-
-  onWheel(e: WheelEvent) {
-    if (this.scrollLocked) return;
-
-    const atTop = window.scrollY <= 0;
-
-    // Projects is the last page: scrolling up at the top goes back to Stack
-    if (e.deltaY < -30 && atTop) {
-      this.triggerTransition('Stack', '/stack');
-    }
-  }
-
-  private triggerTransition(word: string, route: string) {
-    this.scrollLocked   = true;
-    this.overlayWord    = word;
-    this.overlayPhase   = 'in';
-    this.overlayVisible = true;
-
-    this.t1 = setTimeout(() => { this.overlayPhase = 'hold'; }, 100);
-    this.t2 = setTimeout(() => { this.overlayPhase = 'out'; }, 350);
-    this.t3 = setTimeout(() => {
-      this.overlayVisible = false;
-      this.router.navigate([route]);
-    }, 550);
+  protected override onEdgeScrollUp() {
+    this.startTransition('Stack', '/stack');
   }
 
   async loadGitHubData() {

@@ -42,13 +42,16 @@ html, body {
   transition: background 0.4s ease, color 0.3s ease;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior-y: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+html {
+  overscroll-behavior-y: contain;
 }
 
 a { text-decoration: none; color: inherit; }

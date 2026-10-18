@@ -271,8 +271,30 @@
 
 /* ── Mobile ── */
 @media (max-width: 640px) {
+  .resume-backdrop {
+    padding: 0.75rem;
+    padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .resume-modal {
+    max-height: 88dvh;
+
+    &__header { padding: 0.9rem 1rem; }
+
+    &__close {
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+    }
+  }
+
   .resume-modal__body {
     grid-template-columns: 1fr;
+  }
+
+  .resume-col {
+    padding: 1.25rem 1.15rem;
   }
 
   .resume-col--left {

@@ -37,6 +37,12 @@ import { ContactComponent } from './contact/contact.component';
       position: relative;
       padding-bottom: 100px;
     }
+    @media (max-width: 900px) {
+      .app-wrapper {
+        min-height: 100dvh;
+        padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+      }
+    }
   `]
 })
 export class AppComponent implements OnInit {

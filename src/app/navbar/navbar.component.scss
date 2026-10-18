@@ -18,6 +18,7 @@
     padding: 0.3rem 0.75rem;
     border-radius: 8px;
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     white-space: nowrap;
     pointer-events: none;
     animation: tooltipIn 0.15s ease;
@@ -32,6 +33,7 @@
     border: 1px solid var(--border);
     border-radius: 999px;
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   }
 
@@ -95,6 +97,7 @@
   font-size: 13px;
   font-weight: 500;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -112,5 +115,31 @@
     border-color: #3B82F6;
     color: #fff;
     svg { opacity: 1; }
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+
+    &__btn {
+      width: 44px;
+      height: 44px;
+    }
+
+    &__pill {
+      padding: 0.5rem 0.6rem;
+      gap: 0.1rem;
+    }
+
+    &__divider {
+      margin: 0 0.15rem;
+    }
+  }
+
+  .navbar__tab-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+    gap: 6px;
   }
 }

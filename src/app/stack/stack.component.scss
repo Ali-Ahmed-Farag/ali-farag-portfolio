@@ -250,46 +250,50 @@
   }
 }
 
-/* ── Neon Overlay ── */
+/* ══════════════════════════════════════════
+   NEON TRANSITION OVERLAY
+══════════════════════════════════════════ */
 .neon-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
 
-  &.is-light { background: #fff; }
-  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
+  &.is-light { background: rgba(255, 255, 255, 0.85); }
+
+  &.phase-in   { animation: bgFadeIn 0.12s ease forwards; }
   &.phase-hold { opacity: 1; }
-  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
+  &.phase-out  { animation: bgFadeOut 0.2s ease forwards; }
 }
 
 .neon-word {
   font-family: 'Pacifico', cursive;
-  font-size: clamp(4rem, 14vw, 10rem);
+  font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 400;
   letter-spacing: 2px;
   color: #fff;
-  text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 28px rgba(255,255,255,0.6), 0 0 55px rgba(255,255,255,0.3);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.45), 0 0 20px rgba(255, 255, 255, 0.22);
 
   .neon-overlay.is-light & {
     color: #111;
-    text-shadow: 0 0 4px rgba(0,0,0,0.25), 0 0 10px rgba(0,0,0,0.12), 0 0 20px rgba(0,0,0,0.07);
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.28), 0 0 20px rgba(0, 0, 0, 0.12);
   }
 
-  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
-  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
-  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
+  .phase-in &   { animation: neonWordIn 0.12s ease forwards; }
+  .phase-hold & { opacity: 1; }
+  .phase-out &  { animation: neonWordOut 0.2s ease forwards; }
 }
 
 @keyframes bgFadeIn    { from { opacity: 0; } to { opacity: 1; } }
 @keyframes bgFadeOut   { from { opacity: 1; } to { opacity: 0; } }
-@keyframes neonFlicker { 0% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0.75; } 100% { opacity: 1; } }
-@keyframes neonPulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
-@keyframes neonFadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes neonWordIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes neonWordOut { from { opacity: 1; } to { opacity: 0; } }
 
 /* ── Medium screens (laptop صغير) ── */
 @media (max-width: 1200px) {
@@ -312,14 +316,29 @@
   .stack {
     flex-direction: column;
     align-items: flex-start;
-    padding: 5rem 1.5rem 6rem;
-    gap: 2.5rem;
+    min-height: 100dvh;
+    padding: 4rem 1.25rem 2rem;
+    gap: 2rem;
 
     &__right { padding-right: 0; justify-content: flex-start; }
     &__grid  { width: 100%; }
     &__title { letter-spacing: -2px; }
+
+    &__item { padding: 1.1rem 0.5rem; gap: 0.5rem; }
   }
 
   .about-card { max-width: 100%; }
   .side-socials { display: none; }
+}
+
+/* ── Touch devices: no hover, so reveal labels / icons directly ── */
+@media (hover: none) {
+  .stack__name {
+    opacity: 1;
+    transform: none;
+  }
+
+  .stack__item .stack__icon img {
+    filter: grayscale(0.25) brightness(0.95);
+  }
 }

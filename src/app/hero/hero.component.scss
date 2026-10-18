@@ -246,10 +246,11 @@ a.badge--cta {
   .hero {
     flex-direction: column;
     justify-content: center;
-    padding: 6rem 1.5rem 10rem;
+    min-height: 100dvh;
+    padding: 4rem 1.25rem 0;
     text-align: center;
 
-    &__left { flex: none; width: 100%; overflow: visible; align-items: center; }
+    &__left { flex: none; width: 100%; overflow: visible; align-items: center; padding-top: 0; }
     &__name span {
       font-size: clamp(2.8rem, 14vw, 6rem);
       letter-spacing: -2px;
@@ -258,8 +259,8 @@ a.badge--cta {
     }
     &__name-last { margin-left: 0; }
     &__dots { display: none; }
-    &__badges { justify-content: center; align-self: center; }
-    &__title { align-self: center; }
+    &__badges { justify-content: center; align-self: center; gap: 0.6rem; }
+    &__title { align-self: center; margin-bottom: 1.4rem; }
     &__right { width: 100%; flex: none; }
   }
 }
@@ -271,267 +272,40 @@ a.badge--cta {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
 
-  /* Phase in: bg fades in */
-  &.phase-in {
-    animation: bgFadeIn 0.4s ease forwards;
-  }
-  /* Phase hold: fully visible */
-  &.phase-hold {
-    opacity: 1;
-  }
-  /* Phase out: bg fades out */
-  &.phase-out {
-    animation: bgFadeOut 0.5s ease forwards;
-  }
-}
+  &.is-light { background: rgba(255, 255, 255, 0.85); }
 
-.neon-word {
-  font-family: 'Pacifico', 'Dancing Script', 'Brush Script MT', cursive;
-  font-size: clamp(4rem, 14vw, 10rem);
-  font-weight: 400;
-  color: #fff;
-  letter-spacing: 2px;
-
-  /* Neon glow effect */
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px #f0c,
-    0 0 82px #f0c,
-    0 0 92px #f0c,
-    0 0 102px #f0c,
-    0 0 151px #f0c;
-
-  .phase-in & {
-    animation: neonFlicker 0.4s ease forwards;
-  }
-
-  .phase-hold & {
-    animation: neonPulse 1s ease-in-out infinite;
-  }
-
-  .phase-out & {
-    animation: neonFadeOut 0.5s ease forwards;
-  }
-}
-
-@keyframes bgFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes bgFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-@keyframes neonFlicker {
-  0%   { opacity: 0; text-shadow: none; }
-  30%  { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 42px #f0c, 0 0 82px #f0c; }
-  50%  { opacity: 0.7; }
-  70%  { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f0c, 0 0 82px #f0c, 0 0 102px #f0c; }
-  100% { opacity: 1; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #f0c, 0 0 82px #f0c, 0 0 92px #f0c, 0 0 102px #f0c, 0 0 151px #f0c; }
-}
-
-@keyframes neonPulse {
-  0%, 100% {
-    text-shadow:
-      0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
-      0 0 42px #f0c, 0 0 82px #f0c, 0 0 92px #f0c,
-      0 0 102px #f0c, 0 0 151px #f0c;
-  }
-  50% {
-    text-shadow:
-      0 0 4px #fff, 0 0 7px #fff, 0 0 13px #fff,
-      0 0 25px #f0c, 0 0 50px #f0c, 0 0 60px #f0c,
-      0 0 70px #f0c;
-  }
-}
-
-@keyframes neonFadeOut {
-  0%   { opacity: 1; }
-  60%  { opacity: 0.5; text-shadow: 0 0 4px #fff, 0 0 10px #f0c; }
-  100% { opacity: 0; text-shadow: none; }
-}
-
-/* ══════════════════════════════════════════
-   NEON TRANSITION OVERLAY
-   (copy into both hero.component.scss & stack.component.scss)
-══════════════════════════════════════════ */
-.neon-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-
-  /* Light mode: white background */
-  [data-theme="light"] & { background: #fff; }
-
-  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
+  &.phase-in   { animation: bgFadeIn 0.12s ease forwards; }
   &.phase-hold { opacity: 1; }
-  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
+  &.phase-out  { animation: bgFadeOut 0.2s ease forwards; }
 }
 
 .neon-word {
   font-family: 'Pacifico', cursive;
-  font-size: clamp(4rem, 14vw, 10rem);
-  font-weight: 400;
-  letter-spacing: 2px;
-
-  /* Dark mode: white neon */
-  color: #fff;
-  text-shadow:
-    0 0 6px  #fff,
-    0 0 14px #fff,
-    0 0 28px rgba(255,255,255,0.6),
-    0 0 55px rgba(255,255,255,0.3);
-
-  /* Light mode: dark text, very subtle black glow */
-  [data-theme="light"] & {
-    color: #111;
-    text-shadow:
-      0 0 4px  rgba(0,0,0,0.25),
-      0 0 10px rgba(0,0,0,0.12),
-      0 0 20px rgba(0,0,0,0.07);
-  }
-
-  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
-  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
-  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
-}
-
-@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-@keyframes neonFlicker {
-  0%   { opacity: 0; }
-  40%  { opacity: 1; }
-  60%  { opacity: 0.75; }
-  80%  { opacity: 1; }
-  100% { opacity: 1; }
-}
-
-@keyframes neonPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.85; }
-}
-
-@keyframes neonFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-/* ══════════════════════════════════════════
-   NEON TRANSITION OVERLAY
-══════════════════════════════════════════ */
-.neon-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-
-  &.is-light { background: #fff; }
-
-  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
-  &.phase-hold { opacity: 1; }
-  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
-}
-
-.neon-word {
-  font-family: 'Pacifico', cursive;
-  font-size: clamp(4rem, 14vw, 10rem);
+  font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 400;
   letter-spacing: 2px;
   color: #fff;
-  text-shadow:
-    0 0 6px  #fff,
-    0 0 14px #fff,
-    0 0 28px rgba(255,255,255,0.6),
-    0 0 55px rgba(255,255,255,0.3);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.45), 0 0 20px rgba(255, 255, 255, 0.22);
 
   .neon-overlay.is-light & {
     color: #111;
-    text-shadow:
-      0 0 4px  rgba(0,0,0,0.25),
-      0 0 10px rgba(0,0,0,0.12),
-      0 0 20px rgba(0,0,0,0.07);
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.28), 0 0 20px rgba(0, 0, 0, 0.12);
   }
 
-  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
-  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
-  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
+  .phase-in &   { animation: neonWordIn 0.12s ease forwards; }
+  .phase-hold & { opacity: 1; }
+  .phase-out &  { animation: neonWordOut 0.2s ease forwards; }
 }
 
-@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-@keyframes neonFlicker {
-  0%   { opacity: 0; }
-  40%  { opacity: 1; }
-  60%  { opacity: 0.75; }
-  80%  { opacity: 1; }
-  100% { opacity: 1; }
-}
-
-@keyframes neonPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.85; }
-}
-
-@keyframes neonFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-.neon-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-
-  &.is-light { background: #fff; }
-  &.phase-in   { animation: bgFadeIn 0.25s ease forwards; }
-  &.phase-hold { opacity: 1; }
-  &.phase-out  { animation: bgFadeOut 0.35s ease forwards; }
-}
-
-.neon-word {
-  font-family: 'Pacifico', cursive;
-  font-size: clamp(4rem, 14vw, 10rem);
-  font-weight: 400;
-  letter-spacing: 2px;
-  color: #fff;
-  text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 28px rgba(255,255,255,0.6), 0 0 55px rgba(255,255,255,0.3);
-
-  .neon-overlay.is-light & {
-    color: #111;
-    text-shadow: 0 0 4px rgba(0,0,0,0.25), 0 0 10px rgba(0,0,0,0.12), 0 0 20px rgba(0,0,0,0.07);
-  }
-
-  .phase-in &   { animation: neonFlicker 0.25s ease forwards; }
-  .phase-hold & { animation: neonPulse 0.9s ease-in-out infinite; }
-  .phase-out &  { animation: neonFadeOut 0.35s ease forwards; }
-}
-
-@keyframes bgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes bgFadeOut { from { opacity: 1; } to { opacity: 0; } }
-@keyframes neonFlicker { 0% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0.75; } 100% { opacity: 1; } }
-@keyframes neonPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
-@keyframes neonFadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes bgFadeIn    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bgFadeOut   { from { opacity: 1; } to { opacity: 0; } }
+@keyframes neonWordIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes neonWordOut { from { opacity: 1; } to { opacity: 0; } }
