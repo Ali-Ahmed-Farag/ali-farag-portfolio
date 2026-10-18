@@ -58,9 +58,24 @@
         <!-- Projects -->
         <div class="resume-section">
           <h3 class="resume-section__label">PROJECTS</h3>
-          <p class="resume-section__text">
-            New data engineering projects are in progress and will be added here soon.
-          </p>
+          <ul class="resume-projects">
+            <li>
+              <span class="resume-projects__name">E-Commerce Database Design</span>
+              <span class="resume-projects__desc">Normalized 3NF PostgreSQL schema on the Olist dataset — 7 tables, 112K+ order rows, SQL analytics with CTEs and window functions.</span>
+            </li>
+            <li>
+              <span class="resume-projects__name">E-Commerce ETL Pipeline (Apache Airflow)</span>
+              <span class="resume-projects__desc">Daily DAG moving data through raw → staging → production layers, with idempotent re-runs and a data-quality check that fails the run.</span>
+            </li>
+            <li>
+              <span class="resume-projects__name">E-Commerce Sales Dashboard (Star Schema + Power BI)</span>
+              <span class="resume-projects__desc">4 dimensions and a 112,650-row fact table as a Materialized View refreshed from the Airflow DAG, plus a 3-page Power BI dashboard with DAX measures validated against reference SQL values.</span>
+            </li>
+            <li>
+              <span class="resume-projects__name">LMS AI Service</span>
+              <span class="resume-projects__desc">AI service of a larger LMS platform — a FastAPI microservice generating quizzes from lesson content and student weakness reports, using deterministic topic-level analysis plus LLM recommendations.</span>
+            </li>
+          </ul>
         </div>
 
         <!-- Education -->
@@ -91,8 +106,10 @@
             <span>Data Pipelines</span><span>Data Modeling</span>
             <span>Apache Airflow</span><span>Docker</span>
             <span>Git/GitHub</span><span>AWS</span>
+            <span>Power BI</span><span>DAX</span><span>Star Schema</span>
             <span>RAG</span><span>LangChain</span>
             <span>FAISS</span><span>FastAPI</span><span>LLMs</span>
+            <span>pytest</span><span>Pydantic</span>
           </div>
         </div>
 
@@ -100,10 +117,10 @@
         <div class="resume-section">
           <h3 class="resume-section__label">IMPACT</h3>
           <ul class="resume-impact">
-            <li><strong>IBM Data Engineering</strong> Professional Certificate — Coursera.</li>
-            <li>Selected for <strong>GCI World</strong> program — The University of Tokyo.</li>
-            <li><strong>NVIDIA DLI</strong> Generative AI Advanced · 100 hrs — ITI.</li>
-            <li>Built <strong>RAG agents</strong> with LLMs — NVIDIA Certificate of Competency.</li>
+            <li><strong>1,096-day</strong> Airflow backfill completed — <strong>7,672 tasks</strong> with zero failures.</li>
+            <li>Normalized <strong>3NF</strong> PostgreSQL schema — 7 tables and <strong>112K+</strong> order rows (Olist dataset).</li>
+            <li>Star Schema with 4 dimensions and a <strong>112,650-row</strong> fact table (Materialized View) refreshed from the Airflow DAG.</li>
+            <li>DAX measures validated against reference SQL — Total Sales <strong>15.84M</strong>, AOV <strong>160.58</strong>.</li>
           </ul>
         </div>
 

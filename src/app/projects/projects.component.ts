@@ -432,6 +432,8 @@ export class ProjectsComponent extends PageTransition implements OnInit {
       FastAPI: 'assets/icons/fastapi-original.svg',
       RAG: 'assets/icons/database-svgrepo-com.svg',
       Database: 'assets/icons/database-svgrepo-com.svg',
+      LangChain: 'assets/icons/langchain.svg',
+      pytest: 'assets/icons/pytest-original.svg',
     };
     return iconMap[tag] || '';
   }

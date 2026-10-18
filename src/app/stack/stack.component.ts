@@ -17,18 +17,18 @@ export class StackComponent extends PageTransition implements OnInit {
   }
 
   techs = [
-    { name: 'Python',      icon: 'assets/icons/python-original.svg'               },
-    { name: 'SQL',         icon: 'assets/icons/postgresql-original.svg'           },
-    { name: 'PostgreSQL',  icon: 'assets/icons/postgresql-original.svg'           },
-    { name: 'Pandas',      icon: 'assets/icons/pandas-original.svg'               },
-    { name: 'PySpark',     icon: 'assets/icons/apachespark-original.svg'          },
-    { name: 'Airflow',     icon: 'assets/icons/apacheairflow-original.svg'        },
-    { name: 'Docker',      icon: 'assets/icons/docker-original.svg'               },
-    { name: 'Git',         icon: 'assets/icons/git-original.svg'                  },
-    { name: 'AWS',         icon: 'assets/icons/amazonwebservices-original-wordmark.svg' },
-    { name: 'FastAPI',     icon: 'assets/icons/fastapi-original.svg'              },
-    { name: 'RAG',         icon: 'assets/icons/database-svgrepo-com.svg'          },
-    { name: 'LangChain',   icon: 'assets/icons/database-svgrepo-com.svg'          },
+    { name: 'Python',           icon: 'assets/icons/python-original.svg'               },
+    { name: 'PostgreSQL',       icon: 'assets/icons/postgresql-original.svg'           },
+    { name: 'Pandas',           icon: 'assets/icons/pandas-original.svg'               },
+    { name: 'PySpark',          icon: 'assets/icons/apachespark-original.svg'          },
+    { name: 'Airflow',          icon: 'assets/icons/apacheairflow-original.svg'        },
+    { name: 'Docker',           icon: 'assets/icons/docker-original.svg'               },
+    { name: 'Git',              icon: 'assets/icons/git-original.svg'                  },
+    { name: 'AWS',              icon: 'assets/icons/amazonwebservices-original-wordmark.svg' },
+    { name: 'FastAPI',          icon: 'assets/icons/fastapi-original.svg'              },
+    { name: 'RAG',              icon: 'assets/icons/database-svgrepo-com.svg'          },
+    { name: 'LangChain',        icon: 'assets/icons/langchain.svg'                     },
+    { name: 'pytest',           icon: 'assets/icons/pytest-original.svg'               },
   ];
 
   socials = {
