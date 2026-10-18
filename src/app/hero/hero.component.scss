@@ -47,7 +47,7 @@
 
     span {
       display: block;
-      font-size: clamp(2rem, 7vw, 7rem);
+      font-size: clamp(2rem, 5.8vw, 7rem);
       font-weight: 900;
       letter-spacing: -4px;
       color: var(--text-primary);
@@ -58,12 +58,12 @@
     &-first { animation: slideLeft 0.55s 0.1s ease both; }
     &-last  {
       animation: slideLeft 0.55s 0.2s ease both;
-      margin-left: clamp(4rem, 13vw, 13rem);
+      margin-left: clamp(2.5rem, 8vw, 8rem);
     }
   }
 
   &__title {
-    margin-bottom: 2rem;
+    margin-bottom: 0.4rem;
     animation: slideLeft 0.55s 0.3s ease both;
     align-self: flex-start;
 
@@ -75,27 +75,19 @@
     }
   }
 
-  &__dots {
-    position: absolute;
-    left: -0.4rem;
-    top: 60%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-    animation: fadeIn 0.8s 0.5s ease both;
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      border: 1.5px solid var(--dot-color);
-    }
+  &__tagline {
+    margin: 0 0 1.8rem;
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    animation: slideLeft 0.55s 0.35s ease both;
+    align-self: flex-start;
   }
 
   &__badges {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     flex-wrap: wrap;
     animation: slideUp 0.55s 0.4s ease both;
     align-self: flex-start;
@@ -240,7 +232,6 @@ a.badge--cta {
 @keyframes slideDown { from { opacity:0; transform:translateY(-20px) } to { opacity:1; transform:none } }
 @keyframes slideLeft { from { opacity:0; transform:translateX(-30px) } to { opacity:1; transform:none } }
 @keyframes slideUp   { from { opacity:0; transform:translateY(20px) }  to { opacity:1; transform:none } }
-@keyframes fadeIn    { from { opacity:0 } to { opacity:1 } }
 
 @media (max-width: 900px) {
   .hero {
@@ -252,15 +243,15 @@ a.badge--cta {
 
     &__left { flex: none; width: 100%; overflow: visible; align-items: center; padding-top: 0; }
     &__name span {
-      font-size: clamp(2.8rem, 14vw, 6rem);
+      font-size: clamp(2.4rem, 12vw, 5rem);
       letter-spacing: -2px;
       white-space: normal;
       word-break: break-word;
     }
     &__name-last { margin-left: 0; }
-    &__dots { display: none; }
-    &__badges { justify-content: center; align-self: center; gap: 0.6rem; }
-    &__title { align-self: center; margin-bottom: 1.4rem; }
+    &__badges { justify-content: center; align-self: center; gap: 0.8rem; }
+    &__title { align-self: center; margin-bottom: 0.35rem; }
+    &__tagline { align-self: center; text-align: center; margin-bottom: 1.2rem; }
     &__right { width: 100%; flex: none; }
   }
 }

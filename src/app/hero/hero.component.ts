@@ -20,10 +20,10 @@ export class HeroComponent extends PageTransition implements OnInit {
   }
 
   firstName = 'Ali';
-  lastName  = 'Farag';
-  title     = 'Data Engineer';
+  lastName  = 'Ahmed Farag';
+  title     = 'DATA ENGINEER';
   status    = 'Available';
-  timezone  = 'UTC+02:00';
+  tagline   = 'Designing & Building End-to-End Data Pipelines.';
   photoPath = 'assets/images/profile.jpg';
 
   constructor(private router: Router) {
